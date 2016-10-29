@@ -18,11 +18,7 @@ Browser http://10.1.2.2:5000
 ### docker
 You don't want bin, obj and project.lock.json in your Docker image, remove them
 
-rm -rf bin
-
-rm -rf obj
-
-rm -rf project.lock.json
+./clean_up.sh
 
 Then build the docker image
 
