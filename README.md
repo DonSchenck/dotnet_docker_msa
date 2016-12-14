@@ -16,9 +16,17 @@ dotnet run
 Browser http://10.1.2.2:5000
 
 ### docker
+Now that we know it runs, we need to publish a Release version to be used in docker.
+
+Note that we *do not* want to use the combination of `dotnet restore` and `dotnet run` in our Dockerfile. Rather, we want the bits in the docker image to match our compiled project *exactly*, with no chance of `dotnet restore` pulling down different bits. Hence, we publish the solution and then copy that into our docker images.
+
 You don't want bin, obj and project.lock.json in your Docker image, remove them
 
 ./clean_up.sh
+
+Now we can publish the solution:
+
+`dotnet publish -c Release -r rhel.7.2-x64`
 
 Then build the docker image
 
