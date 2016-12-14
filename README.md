@@ -6,23 +6,23 @@ vagrant ssh
 cd /vagrant
 
 ### dotnet core hello world
-Installing dotnet on RHEL
-https://access.redhat.com/documentation/en/net-core/1.0/getting-started-guide/chapter-1-install-net-core-100-on-red-hat-enterprise-linux
+`Installing dotnet on RHEL
+https://access.redhat.com/documentation/en/net-core/1.0/getting-started-guide/chapter-1-install-net-core-100-on-red-hat-enterprise-linux`
 
-dotnet restore
+`dotnet restore`
 
-dotnet run
+`dotnet run`
 
 Browser http://10.1.2.2:5000
 
 ### docker
 Now that we know it runs, we need to publish a Release version to be used in docker.
 
-Note that we *do not* want to use the combination of `dotnet restore` and `dotnet run` in our Dockerfile. Rather, we want the bits in the docker image to match our compiled project *exactly*, with no chance of `dotnet restore` pulling down different bits. Hence, we publish the solution and then copy that into our docker images.
+Note that we *do not* want to use the combination of `dotnet restore` and `dotnet run` in our Dockerfile. Rather, we want the bits in the docker image to match our compiled project *exactly*, with no chance of `dotnet restore` pulling down different bits. Hence, we publish the solution and then copy that into our docker image.
 
-You don't want bin, obj and project.lock.json in your Docker image, remove them
+You don't want bin, obj and project.lock.json in your Docker image; remove them:
 
-./clean_up.sh
+`./clean_up.sh`
 
 Now we can publish the solution:
 
@@ -30,19 +30,19 @@ Now we can publish the solution:
 
 Then build the docker image
 
-docker build -t burr/dotnethello .
+`docker build -t donschenck/dotnethello .`
 
-docker images | grep burr
+`docker images | grep donschenck`
 
 Test the docker image
 
-docker run -d -p 5000:5000 burr/dotnethello
+`docker run -d -p 5000:5000 donschenck/dotnethello`
 
-docker ps | grep burr
+`docker ps | grep donschenck`
 
-docker stop <containerid>
+`docker stop <containerid>`
 
-docker rm <containerid>
+`docker rm <containerid>`
 
 ### openshift/kubernetes
 oc login 10.1.2.2:8443
@@ -51,43 +51,43 @@ user: openshift-dev
 
 devel
 
-oc new-project mydotnet
+`oc new-project mydotnet`
 
-oc new-build --binary --name=dotnethello
+`oc new-build --binary --name=dotnethello`
 
-oc start-build dotnethello --from-dir=. --follow
+`oc start-build dotnethello --from-dir=. --follow`
 
-oc new-app dotnethello
+`oc new-app dotnethello`
 
-oc expose service dotnethello
+`oc expose service dotnethello`
 
 
 ### Blue/Green
-oc new-build --binary --name=dotnethello-blue
+`oc new-build --binary --name=dotnethello-blue`
 
-oc start-build dotnethello-blue --from-dir=. --follow
+`oc start-build dotnethello-blue --from-dir=. --follow`
 
-oc new-app dotnethello-blue
+`oc new-app dotnethello-blue`
 
-oc patch route/dotnethello -p '{"spec": {"to": {"name": "dotnethello-blue" }}}'
+`oc patch route/dotnethello -p '{"spec": {"to": {"name": "dotnethello-blue" }}}'`
 
 ### Canary
 
 1) First create the non-canary service deployment
 
-oc new-build --name dotnethello-first --binary -l app=dotnethello-first
+`oc new-build --name dotnethello-first --binary -l app=dotnethello-first`
 
-oc start-build dotnethello-first --from-dir=. --follow
+`oc start-build dotnethello-first --from-dir=. --follow`
 
-oc new-app dotnethello-first -l app=dotnethello-first
+`oc new-app dotnethello-first -l app=dotnethello-first`
 
-oc set probe dc/dotnethello-first --readiness --get-url=http://:5000/
+`oc set probe dc/dotnethello-first --readiness --get-url=http://:5000/`
 
-oc expose service dotnethello-first
+`oc expose service dotnethello-first`
 
 2) Then create the canary service deployment
 
-vi Startup.cs
+`vi Startup.cs`
 
 change the "Hello World" line
 
