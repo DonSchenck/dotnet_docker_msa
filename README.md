@@ -20,10 +20,6 @@ Now that we know it runs, we need to publish a Release version to be used in doc
 
 Note that we *do not* want to use the combination of `dotnet restore` and `dotnet run` in our Dockerfile. Rather, we want the bits in the docker image to match our compiled project *exactly*, with no chance of `dotnet restore` pulling down different bits. Hence, we publish the solution and then copy that into our docker image.
 
-You don't want bin, obj and project.lock.json in your Docker image; remove them:
-
-`./clean_up.sh`
-
 Now we can publish the solution:
 
 `dotnet publish -c Release -r rhel.7.2-x64`
@@ -91,23 +87,23 @@ devel
 
 change the "Hello World" line
 
-oc new-build --name dotnethello-first-canary --binary -l app=dotnethello-first-canary
+`oc new-build --name dotnethello-first-canary --binary -l app=dotnethello-first-canary`
 
-oc start-build dotnethello-first-canary --from-dir=. --follow
+`oc start-build dotnethello-first-canary --from-dir=. --follow`
 
-oc new-app dotnethello-first-canary -l app=dotnethello-first-canary
+`oc new-app dotnethello-first-canary -l app=dotnethello-first-canary`
 
-oc set probe dc/dotnethello-first-canary --readiness --get-url=http://:5000/
+`oc set probe dc/dotnethello-first-canary --readiness --get-url=http://:5000/`
 
-oc patch dc/dotnethello-first -p '{"spec":{"template":{"metadata":{"labels":{"svc":"canary-dotnethello-first"}}}}}'
+`oc patch dc/dotnethello-first -p '{"spec":{"template":{"metadata":{"labels":{"svc":"canary-dotnethello-first"}}}}}'`
 
-oc patch dc/dotnethello-first-canary -p '{"spec":{"template":{"metadata":{"labels":{"svc":"canary-dotnethello-first"}}}}}'
+`oc patch dc/dotnethello-first-canary -p '{"spec":{"template":{"metadata":{"labels":{"svc":"canary-dotnethello-first"}}}}}'`
 
-oc patch svc/dotnethello-first -p '{"spec":{"selector":{"svc":"canary-dotnethello-first","app": null, "deploymentconfig": null}, "sessionAffinity":"ClientIP"}}'
+`oc patch svc/dotnethello-first -p '{"spec":{"selector":{"svc":"canary-dotnethello-first","app": null, "deploymentconfig": null}, "sessionAffinity":"ClientIP"}}'`
 
 After that use the OpenShift console to "Up" and "Down" to get the mix right
 
-http://screencast.com/t/dWdMETCtnYz
+`http://screencast.com/t/dWdMETCtnYz`
 
 
 
