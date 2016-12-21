@@ -1,19 +1,30 @@
 ## Use with CDK 
 http://developers.redhat.com/products/cdk/overview/
 
-vagrant ssh
+### Start your VM and SSH into it
 
-cd /vagrant
+`vagrant up`
+`vagrant ssh`
 
-### dotnet core hello world
-`Installing dotnet on RHEL
-https://access.redhat.com/documentation/en/net-core/1.0/getting-started-guide/chapter-1-install-net-core-100-on-red-hat-enterprise-linux`
+### Install .NET on your RHEL VM
+
+Follow the instructions at https://access.redhat.com/documentation/en/net-core/1.1/paged/getting-started-guide/chapter-1-install-net-core-11-on-red-hat-enterprise-linux
+
+### Clone this repository into your VM
+
+git clone https://donschenck/dotnet_docker_msa.git
+
+### Move into the directory 
+
+`cd /dotnet_docker_msa`
+
+### Restore and run the application and make sure it runs in RHEL
 
 `dotnet restore`
 
 `dotnet run`
 
-Browser http://10.1.2.2:5000
+In your host (Windows), point your browser to http://10.1.2.2:5000
 
 ### docker
 Now that we know it runs, we need to publish a Release version to be used in docker.

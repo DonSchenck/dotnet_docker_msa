@@ -14,7 +14,7 @@ namespace HelloWeb
             // Console.WriteLine("Host" + hostname);            
             app.Run(context =>
             {
-                return context.Response.WriteAsync("Hello C# .NET " + hostname);
+                return context.Response.WriteAsync("Hello; The HOST running this program is named: " + hostname);
             });
         }
     }
