@@ -10,11 +10,13 @@ namespace HelloWeb
     {
         public void Configure(IApplicationBuilder app)
         {
+
+
             String hostname = Dns.GetHostName();
-            // Console.WriteLine("Host" + hostname);            
+
             app.Run(context =>
             {
-                return context.Response.WriteAsync("VERSION 1.0 -- the HOST running this program is named: " + hostname);
+                return context.Response.WriteAsync("VERSION 22.0 -- the HOST running this program is named: " + hostname);
             });
         }
     }
