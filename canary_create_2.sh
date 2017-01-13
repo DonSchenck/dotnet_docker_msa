@@ -1,5 +1,5 @@
 oc new-build --name dotnethello-first-canary --binary -l app=dotnethello-first-canary
-oc start-build dotnethello-first-canary --from-dir=. --follow
+oc start-build dotnethello-first-canary --from-dir=../bonjour/. --follow
 oc new-app dotnethello-first-canary -l app=dotnethello-first-canary
 oc set probe dc/dotnethello-first-canary --readiness --get-url=http://:5000/
 oc patch dc/dotnethello-first -p '{"spec":{"template":{"metadata":{"labels":{"svc":"canary-dotnethello-first"}}}}}'
