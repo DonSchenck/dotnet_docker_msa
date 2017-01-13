@@ -16,7 +16,7 @@ namespace HelloWeb
 
             app.Run(context =>
             {
-                return context.Response.WriteAsync("VERSION 22.0 -- the HOST running this program is named: " + hostname);
+                return context.Response.WriteAsync("VERSION CANARY -- the HOST running this program is named: " + hostname);
             });
         }
     }
